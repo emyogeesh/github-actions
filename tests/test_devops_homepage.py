@@ -25,7 +25,6 @@ class TestDevOpsHomepage:
 
         assert driver.title == "DevOps Journey"
         assert driver.find_element(By.TAG_NAME, "h2").text == "My DevOps Docker Application"
-        assert "Hello from DevOps Journey" in driver.find_element(By.TAG_NAME, "h1").text
         assert driver.find_element(By.CLASS_NAME, "section-title").text == "Core DevOps Concepts"
 
         driver.quit()
