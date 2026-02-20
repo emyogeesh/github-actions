@@ -1,8 +1,10 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title>DevOps Journey</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <style>
       body {
         margin: 0;
@@ -29,6 +31,11 @@
         margin-bottom: 10px;
       }
 
+      .hero p {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+
       .hero button {
         padding: 10px 20px;
         border: none;
@@ -37,6 +44,10 @@
         font-weight: bold;
         cursor: pointer;
         border-radius: 5px;
+      }
+
+      .hero button:hover {
+        background: #e5e7eb;
       }
 
       .section-title {
@@ -60,6 +71,16 @@
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         text-align: center;
+        transition: transform 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h3 {
+        margin-bottom: 10px;
+        color: #1e40af;
       }
 
       footer {
@@ -68,20 +89,21 @@
         text-align: center;
         padding: 15px;
         margin-top: 30px;
+        font-size: 14px;
       }
     </style>
   </head>
 
   <body>
     <header>
-      <h2>My DevOps Docker App</h2>
+      <h2>My DevOps Docker Application</h2>
     </header>
 
     <section class="hero">
       <h1>Hello from Yogeesh</h1>
       <p>
-        This website is running inside a Docker container and demonstrates a
-        modern DevOps workflow.
+        This website is running inside a Docker container and demonstrates
+        modern DevOps practices including CI/CD and automation.
       </p>
       <button onclick="alert('Continuous Integration and Deployment Active')">
         Explore DevOps
@@ -94,44 +116,51 @@
       <div class="card">
         <h3>Continuous Integration</h3>
         <p>
-          Automated testing and code validation triggered on every commit to
-          ensure software quality and early defect detection.
+          Automated testing and validation triggered on every code commit to
+          maintain quality.
         </p>
       </div>
 
       <div class="card">
         <h3>Continuous Deployment</h3>
         <p>
-          Automated build and deployment pipeline that delivers updates to
-          production quickly and reliably.
+          Automated build and deployment pipelines delivering software rapidly
+          and reliably.
         </p>
       </div>
 
       <div class="card">
         <h3>Containerization</h3>
         <p>
-          Applications packaged with dependencies using Docker to ensure
-          consistent execution across environments.
+          Packaging applications with dependencies using Docker for consistent
+          environments.
         </p>
       </div>
 
       <div class="card">
         <h3>Infrastructure as Code</h3>
         <p>
-          Managing infrastructure using configuration files and automation tools
-          for scalability and repeatability.
+          Managing infrastructure using configuration files and automation
+          tools.
         </p>
       </div>
 
       <div class="card">
         <h3>Monitoring and Logging</h3>
         <p>
-          Continuous system monitoring to track performance, detect failures,
-          and maintain system reliability.
+          Tracking application performance and system health to ensure
+          reliability.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Version Control</h3>
+        <p>
+          Using Git to manage source code changes and collaborate effectively.
         </p>
       </div>
     </section>
 
-    <footer>© 2026 DevOps Journey | Build by @EnterpriseMinds INC</footer>
+    <footer>&copy; 2026 DevOps Journey | Built by EnterpriseMinds Inc</footer>
   </body>
 </html>
