@@ -1,3 +1,28 @@
+# name: Docker CI/CD
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build-and-run:
+#     runs-on: self-hosted
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       - name: Stop old container
+#         run: |
+#           docker stop myapp || true
+#           docker rm myapp || true
+
+#       - name: Build Docker Image
+#         run: docker build -t my-docker-app:v1 .
+
+#       - name: Run Docker Container
+#         run: docker run -d -p 8080:80 --name myapp my-docker-app:v1
 name: Docker CI/CD
 
 on:
@@ -23,3 +48,28 @@ jobs:
 
       - name: Run Docker Container
         run: docker run -d -p 8080:80 --name myapp my-docker-app:v1
+
+      # ✅ Wait for site to load
+      - name: Wait for app
+        run: |
+          for i in {1..20}; do
+            curl -sSf http://localhost:8080 >/dev/null && exit 0
+            echo "Waiting..." && sleep 2
+          done
+          echo "App did not become ready" && exit 1
+
+      # ✅ Install venv tooling + create venv + install deps (fixes PEP 668)
+      - name: Install test dependencies (venv)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-venv python3-full
+          python3 -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ✅ Run tests inside venv
+      - name: Run Selenium sanity tests
+        run: |
+          source venv/bin/activate
+          pytest -m sanity -v
