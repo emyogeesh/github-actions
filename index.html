@@ -39,6 +39,12 @@
         border-radius: 5px;
       }
 
+      .section-title {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 28px;
+      }
+
       .features {
         display: flex;
         justify-content: center;
@@ -50,7 +56,7 @@
       .card {
         background: white;
         padding: 20px;
-        width: 250px;
+        width: 260px;
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         text-align: center;
@@ -73,27 +79,69 @@
 
     <section class="hero">
       <h1>Hello from Yogeesh</h1>
-      <p>This website is running inside a Docker container.</p>
-      <button onclick="alert('DevOps Journey Started!')">Get Started</button>
+      <p>
+        This website is running inside a Docker container and demonstrates a
+        modern DevOps workflow.
+      </p>
+      <button onclick="alert('Continuous Integration and Deployment Active')">
+        Explore DevOps
+      </button>
     </section>
+
+    <h2 class="section-title">Core DevOps Concepts</h2>
 
     <section class="features">
       <div class="card">
-        <h3>Docker</h3>
-        <p>Containerized application deployment.</p>
+        <h3>Continuous Integration</h3>
+        <p>
+          Automated testing and code validation triggered on every commit to
+          ensure software quality and early defect detection.
+        </p>
       </div>
 
       <div class="card">
-        <h3>CI/CD</h3>
-        <p>Automated build and deployment pipeline.</p>
+        <h3>Continuous Deployment</h3>
+        <p>
+          Automated build and deployment pipeline that delivers updates to
+          production quickly and reliably.
+        </p>
       </div>
 
       <div class="card">
-        <h3>Cloud Ready</h3>
-        <p>Ready to deploy on cloud servers.</p>
+        <h3>Containerization</h3>
+        <p>
+          Applications packaged with dependencies using Docker to ensure
+          consistent execution across environments.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Infrastructure as Code</h3>
+        <p>
+          Managing infrastructure using configuration files and automation
+          tools for scalability and repeatability.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Monitoring and Logging</h3>
+        <p>
+          Continuous system monitoring to track performance, detect failures,
+          and maintain system reliability.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Version Control</h3>
+        <p>
+          Source code management using Git to track changes, collaborate, and
+          maintain code history.
+        </p>
       </div>
     </section>
 
-    <footer>© 2026 DevOps Journey | Built with using Docker</footer>
+    <footer>
+      © 2026 DevOps Journey | Build → Test → Deploy → Monitor
+    </footer>
   </body>
 </html>
