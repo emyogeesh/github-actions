@@ -1,4 +1,4 @@
-name: Docker CI/CD + Selenium Tests
+name: Docker CI/CD
 
 on:
   push:
@@ -6,47 +6,44 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  build-and-run:
     runs-on: self-hosted
 
     steps:
-      # 1️⃣ Checkout repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # 2️⃣ Stop old container if exists
       - name: Stop old container
         run: |
           docker stop myapp || true
           docker rm myapp || true
 
-      # 3️⃣ Build Docker Image with version
       - name: Build Docker Image
         run: docker build -t my-docker-app:v1 .
 
-      # 4️⃣ Run Docker container
       - name: Run Docker Container
         run: docker run -d -p 8080:80 --name myapp my-docker-app:v1
 
-      # 5️⃣ Wait until app is ready
-      - name: Wait for App to be Ready
+      # ✅ Wait for site to load
+      - name: Wait for app
         run: |
           for i in {1..20}; do
-            curl -sSf http://localhost:8080 >/dev/null && echo "App is ready" && exit 0
-            echo "Waiting for app..."
-            sleep 2
+            curl -sSf http://localhost:8080 >/dev/null && exit 0
+            echo "Waiting..." && sleep 2
           done
-          echo "App did not become ready"
-          exit 1
+          echo "App did not become ready" && exit 1
 
-      # 6️⃣ Create Python virtual environment & install dependencies
-      - name: Install Test Dependencies
+      # ✅ Create venv + install deps (no sudo; avoids password prompt)
+      # Prereq (one-time on runner): sudo apt-get install -y python3-venv python3-full
+      - name: Install test dependencies (venv)
         run: |
           python3 -m venv venv
-          ./venv/bin/pip install --upgrade pip
-          ./venv/bin/pip install -r requirements.txt
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      # 7️⃣ Run Selenium tests
-      - name: Run Selenium Sanity Tests
+      # ✅ Run tests inside venv
+      - name: Run Selenium sanity tests
         run: |
-          ./venv/bin/pytest -m sanity -v
+          source venv/bin/activate
+          pytest -m sanity -v
