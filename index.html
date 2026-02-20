@@ -1,14 +1,99 @@
 <!doctype html>
 <html>
   <head>
-    <title>My First Docker App</title>
-  </head>
-  <body style="text-align: center; font-family: Arial">
-    <h1>Hello from sanjana</h1>
+    <title>DevOps Journey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+      }
 
-    <h1>Hello from Docker</h1>
-    <h2>This site is running inside a container</h2>
-    <p>DevOps journey started</p>
-    <p>Updated to run everytime</p>
+      header {
+        background: #1f2937;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .hero {
+        padding: 60px 20px;
+        text-align: center;
+        background: linear-gradient(to right, #2563eb, #1e40af);
+        color: white;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+      }
+
+      .hero button {
+        padding: 10px 20px;
+        border: none;
+        background: white;
+        color: #1e40af;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .features {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 40px 20px;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        background: white;
+        padding: 20px;
+        width: 250px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      footer {
+        background: #111827;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h2>🚀 My DevOps Docker App</h2>
+    </header>
+
+    <section class="hero">
+      <h1>Hello from Sanjana 👋</h1>
+      <p>This website is running inside a Docker container.</p>
+      <button onclick="alert('DevOps Journey Started!')">Get Started</button>
+    </section>
+
+    <section class="features">
+      <div class="card">
+        <h3>🐳 Docker</h3>
+        <p>Containerized application deployment.</p>
+      </div>
+
+      <div class="card">
+        <h3>⚙️ CI/CD</h3>
+        <p>Automated build and deployment pipeline.</p>
+      </div>
+
+      <div class="card">
+        <h3>🌐 Cloud Ready</h3>
+        <p>Ready to deploy on cloud servers.</p>
+      </div>
+    </section>
+
+    <footer>© 2026 DevOps Journey | Built with ❤️ using Docker</footer>
   </body>
 </html>
