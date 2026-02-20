@@ -7,36 +7,39 @@ from selenium.webdriver.support import expected_conditions as EC
 
 BASE_URL = "http://localhost:8080"
 
+
+@pytest.fixture(scope="class")
+def driver(request):
+    options = Options()
+    # options.add_argument("--headless=new")  # enable in CI
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    drv = webdriver.Chrome(options=options)
+    drv.maximize_window()
+
+    request.cls.driver = drv
+    yield drv
+
+    drv.quit()
+
+
 @pytest.mark.sanity
+@pytest.mark.usefixtures("driver")
 class TestDevOpsHomepage:
 
-    def get_driver(self):
-        options = Options()
-        # options.add_argument("--headless=new")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        driver = webdriver.Chrome(options=options)
-        driver.maximize_window()
-        return driver
-
     def test_homepage_load_and_texts(self):
-        driver = self.get_driver()
-        driver.get(BASE_URL)
+        self.driver.get(BASE_URL)
 
-        assert driver.title == "DevOps Journey"
-        assert driver.find_element(By.TAG_NAME, "h2").text == "My DevOps Docker Application"
-        assert driver.find_element(By.CLASS_NAME, "section-title").text == "Core DevOps Concepts"
-
-        driver.quit()
+        assert self.driver.title == "DevOps Journey"
+        assert self.driver.find_element(By.TAG_NAME, "h2").text == "My DevOps Docker Application"
+        assert self.driver.find_element(By.CLASS_NAME, "section-title").text == "Core DevOps Concepts"
 
     def test_explore_button_alert(self):
-        driver = self.get_driver()
-        driver.get(BASE_URL)
+        self.driver.get(BASE_URL)
 
-        driver.find_element(By.TAG_NAME, "button").click()
+        self.driver.find_element(By.TAG_NAME, "button").click()
 
-        alert = WebDriverWait(driver, 5).until(EC.alert_is_present())
+        alert = WebDriverWait(self.driver, 5).until(EC.alert_is_present())
         assert alert.text == "Continuous Integration and Deployment Active"
         alert.accept()
-
-        driver.quit()
