@@ -58,11 +58,10 @@ jobs:
           done
           echo "App did not become ready" && exit 1
 
-      # ✅ Install venv tooling + create venv + install deps (fixes PEP 668)
+      # ✅ Create venv + install deps (no sudo; avoids password prompt)
+      # Prereq (one-time on runner): sudo apt-get install -y python3-venv python3-full
       - name: Install test dependencies (venv)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-venv python3-full
           python3 -m venv venv
           source venv/bin/activate
           python -m pip install --upgrade pip
