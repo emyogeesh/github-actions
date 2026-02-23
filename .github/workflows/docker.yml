@@ -24,17 +24,17 @@ jobs:
       - name: Run Docker Container
         run: docker run -d -p 8080:80 --name myapp my-docker-app:v1
 
-      # ✅ Wait for site to load
+      # Wait for site to load
       - name: Wait for app
         run: |
           for i in {1..20}; do
             curl -sSf http://localhost:8080 >/dev/null && exit 0
             echo "Waiting..." && sleep 2
           done
-          echo "App did not become ready" && exit 1
+          echo "Site did not become ready" && exit 1
 
-      # ✅ Create venv + install deps (no sudo; avoids password prompt)
-      # Prereq (one-time on runner): sudo apt-get install -y python3-venv python3-full
+      # Create venv + install deps
+      # Prereq: sudo apt-get install -y python3-venv python3-full
       - name: Install test dependencies (venv)
         run: |
           python3 -m venv venv
@@ -42,8 +42,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ✅ Run tests inside venv
-      - name: Run Selenium sanity tests
+      # Run tests inside venv
+      - name: Run sanity tests
         run: |
           source venv/bin/activate
           pytest -m sanity -v
