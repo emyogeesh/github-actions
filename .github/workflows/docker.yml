@@ -1,3 +1,5 @@
+# 
+
 name: Docker CI/CD
 
 on:
@@ -10,31 +12,52 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Stop old container
+      # -----------------------
+      # Build image first
+      # -----------------------
+      - name: Build Docker image
         run: |
-          docker stop myapp || true
-          docker rm myapp || true
+          # fail early on errors
+          set -e
+          # build image (tag)
+          docker build -t my-docker-app:v1 .
 
-      - name: Build Docker Image
-        run: docker build -t my-docker-app:v1 .
+      # -----------------------
+      # Only after build success: stop old container and remove it
+      # -----------------------
+      - name: Stop & remove old container (if any)
+        run: |
+          # don't fail if container not present
+          docker ps -a --format '{{.Names}}' | grep -w myapp >/dev/null 2>&1 && \
+            (docker stop myapp || true; docker rm myapp || true) || \
+            echo "no existing myapp container"
 
-      - name: Run Docker Container
-        run: docker run -d -p 8080:80 --name myapp my-docker-app:v1
+      # -----------------------
+      # Run the newly built image
+      # -----------------------
+      - name: Run Docker container
+        run: |
+          # start container from the image built above
+          docker run -d -p 8080:80 --name myapp my-docker-app:v1
 
-      # Wait for site to load
+      # -----------------------
+      # Wait for site to become healthy
+      # -----------------------
       - name: Wait for app
         run: |
           for i in {1..20}; do
             curl -sSf http://localhost:8080 >/dev/null && exit 0
-            echo "Waiting..." && sleep 2
+            echo "Waiting for app to become ready..." && sleep 2
           done
           echo "Site did not become ready" && exit 1
 
+      # -----------------------
       # Create venv + install deps
-      # Prereq: sudo apt-get install -y python3-venv python3-full
+      # Prereq on runner: python3-venv python3-full
+      # -----------------------
       - name: Install test dependencies (venv)
         run: |
           python3 -m venv venv
@@ -42,7 +65,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # -----------------------
       # Run tests inside venv
+      # -----------------------
       - name: Run sanity tests
         run: |
           source venv/bin/activate
