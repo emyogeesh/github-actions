@@ -24,31 +24,26 @@ jobs:
       - name: Run Docker Container
         run: docker run -d -p 8080:80 --name myapp my-docker-app:v1
 
-      #  Wait for site to load
+      # Wait for site to load
       - name: Wait for app
         run: |
           for i in {1..20}; do
             curl -sSf http://localhost:8080 >/dev/null && exit 0
             echo "Waiting..." && sleep 2
           done
-          echo "App did not become ready" && exit 1
+          echo "Site did not become ready" && exit 1
 
-      - name: Setup Python and install dependencies
+      # Create venv + install deps
+      # Prereq: sudo apt-get install -y python3-venv python3-full
+      - name: Install test dependencies (venv)
         run: |
           python3 -m venv venv
           source venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
-          # Install Chrome dependencies
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add - || true
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
 
-      - name: Run Selenium sanity tests
+      # Run tests inside venv
+      - name: Run sanity tests
         run: |
           source venv/bin/activate
-          pytest tests/ -m sanity -v --tb=short
-        env:
-          CHROME_BIN: /usr/bin/google-chrome
+          pytest -m sanity -v
