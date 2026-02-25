@@ -1,5 +1,3 @@
-# 
-
 name: Docker CI/CD
 
 on:
