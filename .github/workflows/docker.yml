@@ -15,9 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # -----------------------
       # Build image first
-      # -----------------------
       - name: Build Docker image
         run: |
           # fail early on errors
@@ -25,9 +23,7 @@ jobs:
           # build image (tag)
           docker build -t my-docker-app:v1 .
 
-      # -----------------------
       # Only after build success: stop old container and remove it
-      # -----------------------
       - name: Stop & remove old container (if any)
         run: |
           # don't fail if container not present
@@ -35,17 +31,13 @@ jobs:
             (docker stop myapp || true; docker rm myapp || true) || \
             echo "no existing myapp container"
 
-      # -----------------------
       # Run the newly built image
-      # -----------------------
       - name: Run Docker container
         run: |
           # start container from the image built above
           docker run -d -p 8080:80 --name myapp my-docker-app:v1
 
-      # -----------------------
       # Wait for site to become healthy
-      # -----------------------
       - name: Wait for app
         run: |
           for i in {1..20}; do
@@ -54,10 +46,8 @@ jobs:
           done
           echo "Site did not become ready" && exit 1
 
-      # -----------------------
       # Create venv + install deps
       # Prereq on runner: python3-venv python3-full
-      # -----------------------
       - name: Install test dependencies (venv)
         run: |
           python3 -m venv venv
@@ -65,9 +55,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # -----------------------
       # Run tests inside venv
-      # -----------------------
       - name: Run sanity tests
         run: |
           source venv/bin/activate
