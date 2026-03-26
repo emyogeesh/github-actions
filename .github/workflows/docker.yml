@@ -33,13 +33,13 @@ jobs:
       - name: Run Docker container
         run: |
           # start container from the image built above
-          docker run -d -p 8080:80 --name myapp my-docker-app:v1
+          docker run -d -p 8090:80 --name myapp my-docker-app:v1
 
       # Wait for site to become healthy
       - name: Wait for app
         run: |
           for i in {1..20}; do
-            curl -sSf http://localhost:8080 >/dev/null && exit 0
+            curl -sSf http://localhost:8090 >/dev/null && exit 0
             echo "Waiting for app to become ready..." && sleep 2
           done
           echo "Site did not become ready" && exit 1

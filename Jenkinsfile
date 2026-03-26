@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "my-docker-app:v1"
         CONTAINER_NAME = "myapp"
-        PORT = "8080"
+        PORT = "8090"
     }
  
     stages {
